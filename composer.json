@@ -2,11 +2,18 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "google/cloud-firestore": "*",
+        "grpc/grpc": "^1.42",
         "guzzlehttp/guzzle": "^7.2",
+        "kreait/firebase-php": "^6.9",
+        "kreait/laravel-firebase": "^4.2",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7"
@@ -26,6 +33,9 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
+    },
+    "provide": {
+        "ext-grpc": "*"
     },
     "autoload-dev": {
         "psr-4": {

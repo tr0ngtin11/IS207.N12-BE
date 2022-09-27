@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
+use Kreait\Laravel\Firebase\Facades\Firebase;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\ServiceAccount;
+use Kreait\Firebase\Database;
+
 class AuthController extends Controller
 {
     public function createUser(Request $request){
@@ -29,7 +34,6 @@ class AuthController extends Controller
                 ],401);
             }
 
-
         
             $user = User::create([
                 'name' => $request->name,
@@ -37,6 +41,15 @@ class AuthController extends Controller
                 'password'=> Hash::make($request->password)
             ]);
 
+            $factory = (new Factory)->withServiceAccount(__DIR__.'/laravel-app-bc690-firebase-adminsdk-lsrie-fd8832949b.json');
+            $firestore = $factory->createFirestore();
+            $database = $firestore->database();
+            $userRef = $database->collection('User')->newDocument();
+            $userRef->set([
+                'name' => $request->name,
+                'email'=> $request->email,
+                'password'=> Hash::make($request->password)
+            ]);
 
             return response()->json([
                 'status' => true,
@@ -86,7 +99,8 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'user'=> $user->all(),
             ],200);
 
         } catch(\Throwable $th){
