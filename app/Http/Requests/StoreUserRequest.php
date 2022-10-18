@@ -24,8 +24,8 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=> ['required', 'string', 'max:255'],
-            'email'=> ['required', 'string', 'max:255','unique:users'],
+            'hoten'=> ['required', 'string', 'max:255'],
+            'email'=> ['required', 'string', 'max:255','unique:nguoi_dungs'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
     }

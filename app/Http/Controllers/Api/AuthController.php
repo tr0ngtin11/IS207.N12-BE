@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Models\NguoiDung;
 use App\Models\User;
 use App\Trait\HttpResponses;
+use DateTime;
+use DateTimeImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -19,6 +22,7 @@ use Kreait\Firebase\Database;
 use PhpParser\Node\Stmt\TryCatch;
 
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {use HttpResponses;
@@ -26,25 +30,27 @@ class AuthController extends Controller
 
         try{
             
-            $user = User::create([
-                'name' => $request->name,
+            $user = NguoiDung::create([
+                'hoten' => $request->hoten,
                 'email' => $request->email,
-                'password'=> hash::make($request->password)
+                'role'=> $request->role,
+               'password'=> hash::make($request->password),
+                // 'password'=> $request->password
             ]);
 
-            $factory = (new Factory)->withServiceAccount(__DIR__.'/laravel-app-bc690-firebase-adminsdk-lsrie-fd8832949b.json');
-            $firestore = $factory->createFirestore();
-            $database = $firestore->database();
-            $userRef = $database->collection('User')->newDocument();
-            $userRef->set([
-                'name' => $request->name,
-                'email'=> $request->email,
-                'password'=> Hash::make($request->password)
-            ]);
+            // $factory = (new Factory)->withServiceAccount(__DIR__.'/laravel-app-bc690-firebase-adminsdk-lsrie-fd8832949b.json');
+            // $firestore = $factory->createFirestore();
+            // $database = $firestore->database();
+            // $userRef = $database->collection('User')->newDocument();
+            // $userRef->set([
+            //     'name' => $request->name,
+            //     'email'=> $request->email,
+            //     'password'=> Hash::make($request->password)
+            // ]);
 
             return $this->success([
                 'user' => $user,
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                // 'token' => $user->createToken("API TOKEN")->plainTextToken
             ],200);
 
         } catch(\Throwable $th){
@@ -56,21 +62,22 @@ class AuthController extends Controller
 
     }
 
-    public function register(StoreUserRequest $request) 
-    {
-        $request->validated($request->only(['name', 'email', 'password']));
+    // public function createUser(StoreUserRequest $request) 
+    // {
+    //     $request->validated($request->only(['name', 'email', 'password']));
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+    //     $user = User::create([
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'password' => Hash::make($request->password),
+    //     ]);
 
-        return $this->success([
-            'user' => $user,
-            'token' => $user->createToken('API Token')->plainTextToken
-        ]);
-    }
+    //     return $this->success([
+    //         'user' => $user,
+    //         // 'token' => $user->createToken('API Token')->plainTextToken,
+           
+    //     ]);
+    // }
 
 
     public function loginUser(LoginUserRequest $request){
@@ -82,14 +89,21 @@ class AuthController extends Controller
                 return $this->error('','Credentials do not math',401);
             }
         
-            $user = User::where('email',$request->email)->first();
-       
-         
-
-
+            $user = NguoiDung::where('email',$request->email)->first();
+             $time_expiration_token = $user->createToken('API TOKEN')->accessToken->expires_at;
+            // // $time_expiration_token1 = new DateTimeImmutable($time_expiration_token);
+            // $format = 'Y-m-d H:i:s';
+            // // $date = DateTimeImmutable::createFromFormat($format,$time_expiration_token);
+            // // $date = DateTimeImmutable::cre($format,$time_expiration_token);
+            // // $date->format('Y-m-d H:i:s');
+            // // $time = $date->date;
+            // $time_expiration_token->format(DateTime::RFC1036);
+            //    $date =  date('Y-m-d H:i:s',$time_expiration_token);
+           $date = $time_expiration_token->format('Y-m-d H:i:s');
             return $this->success([
                 'user'=> $user,
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'expires_at'=> $date
             ],200);
 
         } catch(\Throwable $th){
