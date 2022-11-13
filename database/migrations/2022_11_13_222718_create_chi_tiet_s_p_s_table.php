@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('chitietsp', function (Blueprint $table) {
-            $table->id('MaSP');
+        Schema::create('chi_tiet_s_p_s', function (Blueprint $table) {
+            $table->id('MaSP')->index();
             $table->string('TenSP');
             $table->double('Gia');
-            $table->enum('Size',['S', 'M', 'L','XL'])->nullable();
-            $table->string('MaKM')->nullable();
+            $table->bigInteger('MaPL')->unsigned();
             $table->timestamps();
 
-            $table->foreign('MaSP')->references('MaSP')->on('sanpham')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
+            // $table->foreign('MaPL')->references('MaPL')->on('phan_loais')
+            // ->onUpdate('cascade')
+            // ->onDelete('cascade');
         });
     }
 
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chitietsp');
+        Schema::dropIfExists('chi_tiet_s_p_s');
     }
 };

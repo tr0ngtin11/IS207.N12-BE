@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nhanvien', function (Blueprint $table) {
+        Schema::create('nhan_viens', function (Blueprint $table) {
             $table->id('MaNV');
             $table->double('luong');
             $table->timestamps();
-            $table->foreign('MaNV')->references('MaND')->on('nguoidung')
+            $table->foreign('MaNV')->references('MaND')->on('nguoi_dungs')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nhanvien');
+        Schema::dropIfExists('nhan_viens');
     }
 };

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('chitiethd', function (Blueprint $table) {
+        Schema::create('chi_tiet_h_d_s', function (Blueprint $table) {
             $table->bigInteger('MaHD')->unsigned();
             $table->bigInteger('MaSP')->unsigned();
             $table->integer('SoLuong');
@@ -22,11 +22,11 @@ return new class extends Migration
             $table->primary(['MaHD','MaSP']);
 
             
-            $table->foreign('MaHD')->references('MaHD')->on('hoadon')
+            $table->foreign('MaHD')->references('MaHD')->on('hoa_dons')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
-            $table->foreign('MaSP')->references('MaSP')->on('sanpham')
+            $table->foreign('MaSP')->references('MaSP')->on('san_phams')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chitiethd');
+        Schema::dropIfExists('chi_tiet_h_d_s');
     }
 };

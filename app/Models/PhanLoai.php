@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class SanPham extends Model
+class PhanLoai extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -17,7 +16,7 @@ class SanPham extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-    'PhanLoai'
+    'TenPL'
         
     ];
 }

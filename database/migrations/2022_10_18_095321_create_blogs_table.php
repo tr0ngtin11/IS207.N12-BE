@@ -23,7 +23,7 @@ return new class extends Migration
             $table->dateTime('NgayBlog');
             $table->timestamps();
             
-            $table->foreign('MaND')->references('MaND')->on('nguoidung')
+            $table->foreign('MaND')->references('MaND')->on('nguoi_dungs')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });

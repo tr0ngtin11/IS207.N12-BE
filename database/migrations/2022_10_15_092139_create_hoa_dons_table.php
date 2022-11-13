@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hoadon', function (Blueprint $table) {
+        Schema::create('hoa_dons', function (Blueprint $table) {
             $table->id('MaHD');
            $table->bigInteger('MaNV')->unsigned();
            $table->bigInteger('MaKH')->unsigned();
@@ -22,14 +22,14 @@ return new class extends Migration
             $table->double('TongTien');
             $table->timestamps();
 
-            $table->foreign('MaNV')->references('MaSP')->on('sanpham')
+            $table->foreign('MaNV')->references('MaSP')->on('san_phams')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
-            $table->foreign('MaKH')->references('MaKH')->on('khachhang')
+            $table->foreign('MaKH')->references('MaKH')->on('khach_hangs')
             ->onUpdate('cascade')
             ->onDelete('cascade');
-            // $table->foreign('MaCH')->references('MaCH')->on('cuahang')
+            // $table->foreign('MaCH')->references('MaCH')->on('cua_hangs')
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
         });
@@ -42,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hoadon');
+        Schema::dropIfExists('hoa_dons');
     }
 };

@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('dat_hangs', function (Blueprint $table) {
-            $table->bigInteger('MaDH');
-            $table->bigInteger('MaHD')->unsigned();
-            $table->enum('TrangThai',['Chuaxacnhan','Daxacnhan','Danggiao','Dagiao','Dahuy']);
-            $table->string('DiaChiNH'); // dia chi nhan hang
+        Schema::create('gia_s_p_s', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('MaSP')->unsigned();
+            $table->enum('Size',['S', 'M', 'L','XL'])->nullable();
+            $table->double("Gia");
+            $table->integer("MaKM")->nullable();
             $table->timestamps();
 
             
-            $table->foreign('MaHD')->references('MaHD')->on('hoa_dons')
+            $table->foreign('MaSP')->references('MaSP')->on('chi_tiet_s_p_s')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dat_hangs');
+        Schema::dropIfExists('gia_s_p_s');
     }
 };

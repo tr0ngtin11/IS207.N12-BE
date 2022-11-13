@@ -20,5 +20,8 @@ class Blog extends Model
     protected $fillable = [
         'TieuDe',
         'MoTa',
+        'NoiDung',
+        'UrlImage',
+        'NgayBlog',
     ];
 }

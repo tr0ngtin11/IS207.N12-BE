@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('quan_lis', function (Blueprint $table) {
-            $table->id('MaQL');
+        Schema::create('phan_loais', function (Blueprint $table) {
+            $table->id("MaPL");
+            $table->enum('TenPL',['Douong', 'Doan', 'Toping']);
             $table->timestamps();
-            $table->foreign('MaQL')->references('MaND')->on('nguoi_dungs')
-            ->onUpdate('cascade')
-            ->onDelete('cascade');
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quan_lis');
+        Schema::dropIfExists('phan_loais');
     }
 };

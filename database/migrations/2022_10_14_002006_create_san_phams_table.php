@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sanpham', function (Blueprint $table) {
+        Schema::create('san_phams', function (Blueprint $table) {
             $table->id('MaSP');
             $table->enum('PhanLoai',['Douong', 'Doan', 'Toping']);
             $table->timestamps();
@@ -27,6 +27,11 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sanpham');
+        Schema::dropIfExists('san_phams');
     }
 };
+
+
+
+
+

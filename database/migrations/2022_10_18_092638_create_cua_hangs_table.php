@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cuahang', function (Blueprint $table) {
-            $table->id('MaCh');
+        Schema::create('cua_hangs', function (Blueprint $table) {
+            $table->id('MaCH');
             $table->bigInteger('MaQL')->unsigned();
             $table->string('TenCH');
             $table->string('SDT');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
 
-            $table->foreign('MaQL')->references('MaQL')->on('quanli')
+            $table->foreign('MaQL')->references('MaQL')->on('quan_lis')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cuahang');
+        Schema::dropIfExists('cua_hangs');
     }
 };
