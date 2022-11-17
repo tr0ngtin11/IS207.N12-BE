@@ -24,8 +24,9 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            "title"=> "required|max:70",
-            "description"=> "required"
+            "TenSP"=> "required",
+            "Gia"=> "required",
+            "MaPL"=> "required",
         ];
     }
 }

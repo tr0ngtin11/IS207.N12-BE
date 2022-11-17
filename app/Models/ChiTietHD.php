@@ -18,6 +18,8 @@ class ChiTietHD extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
+        'MaSP', 
     'SoLuong',
     'ThanhTien',
   

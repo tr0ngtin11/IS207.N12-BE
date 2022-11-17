@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('blogs', function (Blueprint $table) {
-            $table->id('MaBL');
+            $table->bigIncrements('id');
             $table->bigInteger('MaND')->unsigned();
             $table->string('TieuDe');
             $table->string('MoTa');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->dateTime('NgayBlog');
             $table->timestamps();
             
-            $table->foreign('MaND')->references('MaND')->on('nguoi_dungs')
+            $table->foreign('MaND')->references('id')->on('nguoi_dungs')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });

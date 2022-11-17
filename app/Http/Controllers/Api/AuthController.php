@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Khachhang;
 use App\Models\NguoiDung;
-use App\Models\User;
 use App\Trait\HttpResponses;
 use DateTime;
 use DateTimeImmutable;
@@ -37,7 +37,9 @@ class AuthController extends Controller
                'password'=> hash::make($request->password),
                 // 'password'=> $request->password
             ]);
-
+            $customer = Khachhang::create([
+                'id' => $user->id,
+            ]);
             // $factory = (new Factory)->withServiceAccount(__DIR__.'/laravel-app-bc690-firebase-adminsdk-lsrie-fd8832949b.json');
             // $firestore = $factory->createFirestore();
             // $database = $firestore->database();
@@ -48,9 +50,10 @@ class AuthController extends Controller
             //     'password'=> Hash::make($request->password)
             // ]);
 
-            return $this->success([
-                'user' => $user,
-                // 'token' => $user->createToken("API TOKEN")->plainTextToken
+            return response()->json([
+                'data' => $user,
+                'status' => true,
+                'token' => $user->createToken("API TOKEN")->plainTextToken
             ],200);
 
         } catch(\Throwable $th){
@@ -129,6 +132,25 @@ class AuthController extends Controller
             ],500);
         }
 
+    }
+
+    public function getUser(Request $request)
+    {
+        try {
+            // get id user from jwt token
+            $bearToken = $request->bearerToken();
+            $idUser = PersonalAccessToken::findToken($bearToken)->tokenable_id;
+            $user = NguoiDung::find($idUser);
+            return response()->json([
+                'status' => true,
+                'token' => $user
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
 

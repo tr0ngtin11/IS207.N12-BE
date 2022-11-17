@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('khach_hangs', function (Blueprint $table) {
-             $table->id('MaKH');
+            $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->foreign('MaKH')->references('MaND')->on('nguoi_dungs')
+            $table->foreign('id')->references('id')->on('nguoi_dungs')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });

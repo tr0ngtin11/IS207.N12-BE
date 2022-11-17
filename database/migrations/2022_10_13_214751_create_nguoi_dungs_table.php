@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
+        
         Schema::create('nguoi_dungs', function (Blueprint $table) {
-            $table->id('mand');
+            $table->bigIncrements('id');
             $table->string('hoten');
             $table->string('email')->unique();
             $table->string('password');

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('phan_loais', function (Blueprint $table) {
-            $table->id("MaPL");
+            $table->bigIncrements('id');
             $table->enum('TenPL',['Douong', 'Doan', 'Toping']);
             $table->timestamps();
         });

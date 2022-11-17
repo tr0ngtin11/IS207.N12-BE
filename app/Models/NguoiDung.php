@@ -30,7 +30,7 @@ class NguoiDung extends Authenticatable
         // 'urlavt',
         
     ];
-    protected $primaryKey = 'mand';
+    protected $primaryKey = 'id';
     protected $table = 'nguoi_dungs';
     /**
      * The attributes that should be hidden for serialization.

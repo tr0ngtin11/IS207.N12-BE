@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('nhan_viens', function (Blueprint $table) {
-            $table->id('MaNV');
+            $table->bigIncrements('id');
             $table->double('luong');
             $table->timestamps();
-            $table->foreign('MaNV')->references('MaND')->on('nguoi_dungs')
+            $table->foreign('id')->references('id')->on('nguoi_dungs')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });

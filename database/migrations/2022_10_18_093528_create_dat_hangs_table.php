@@ -14,14 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('dat_hangs', function (Blueprint $table) {
-            $table->bigInteger('MaDH');
+            $table->bigIncrements('id');
             $table->bigInteger('MaHD')->unsigned();
             $table->enum('TrangThai',['Chuaxacnhan','Daxacnhan','Danggiao','Dagiao','Dahuy']);
             $table->string('DiaChiNH'); // dia chi nhan hang
             $table->timestamps();
 
             
-            $table->foreign('MaHD')->references('MaHD')->on('hoa_dons')
+            $table->foreign('MaHD')->references('id')->on('hoa_dons')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });

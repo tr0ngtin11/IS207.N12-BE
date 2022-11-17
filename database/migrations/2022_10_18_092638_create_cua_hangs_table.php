@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('cua_hangs', function (Blueprint $table) {
-            $table->id('MaCH');
+            $table->bigIncrements('id');
             $table->bigInteger('MaQL')->unsigned();
             $table->string('TenCH');
             $table->string('SDT');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
 
-            $table->foreign('MaQL')->references('MaQL')->on('quan_lis')
+            $table->foreign('MaQL')->references('id')->on('quan_lis')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 

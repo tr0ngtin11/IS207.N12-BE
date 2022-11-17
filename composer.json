@@ -15,9 +15,11 @@
         "kreait/firebase-php": "^6.9",
         "kreait/laravel-firebase": "^4.2",
         "laravel/framework": "^9.19",
+        "laravel/passport": "^11.3",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "laravel/ui": "^4.0"
+        "laravel/ui": "^4.0",
+        "lcobucci/jwt": "4.1.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

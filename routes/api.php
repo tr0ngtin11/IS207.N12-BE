@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
-use App\Http\Controllers\Api\SanPhamController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\TasksController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\ThanhToanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,8 +35,13 @@ Route::apiResource('posts', PostController::class);
  Route::group(['middleware'=>['auth:sanctum']],function(){
      Route::resource('/task', TasksController::class);
     Route::post('/auth/logout',[AuthController::class,'logoutUser']);
-    Route::apiResource('sanpham', SanPhamController::class );
+    Route::apiResource('sanpham', SanPhamController::class);
+    Route::post('/thanhtoan', [ThanhToanController::class, 'thanhToan']);
+    Route::apiResource('blog', BlogController::class);
+    Route::get('/user', [AuthController::class, 'getUser']);
 });
+
+
 
 
 

@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('quan_lis', function (Blueprint $table) {
-            $table->id('MaQL');
+            $table->bigIncrements('id');
             $table->timestamps();
-            $table->foreign('MaQL')->references('MaND')->on('nguoi_dungs')
+            $table->foreign('id')->references('id')->on('nguoi_dungs')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });

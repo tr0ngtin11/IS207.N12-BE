@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('chi_tiet_s_p_s', function (Blueprint $table) {
-            $table->id('MaSP')->index();
+            $table->bigIncrements('id');
             $table->string('TenSP');
             $table->double('Gia');
             $table->bigInteger('MaPL')->unsigned();
             $table->timestamps();
 
-            // $table->foreign('MaPL')->references('MaPL')->on('phan_loais')
+            // $table->foreign('MaPL')->references('id')->on('phan_loais')
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
         });

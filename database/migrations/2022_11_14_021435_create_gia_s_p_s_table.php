@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('gia_s_p_s', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->bigInteger('MaSP')->unsigned();
             $table->enum('Size',['S', 'M', 'L','XL'])->nullable();
             $table->double("Gia");
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
             
-            $table->foreign('MaSP')->references('MaSP')->on('chi_tiet_s_p_s')
+            $table->foreign('MaSP')->references('id')->on('chi_tiet_s_p_s')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });
