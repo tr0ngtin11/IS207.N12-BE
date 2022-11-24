@@ -19,6 +19,7 @@ class HoaDon extends Model
      */
     protected $fillable = [
         'id',
+        'MaKH',
         'NgayHD',
         'TongTien',
     ];

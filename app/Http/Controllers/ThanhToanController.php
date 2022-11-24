@@ -24,21 +24,26 @@ class ThanhToanController extends Controller
     public function thanhToan(Request $request)
     {
         $input = $request->all();
+        // Log::info($input["list"]);
+        $listOrder = $input["list"];
+
         $STTCTHD = HoaDon::latest('id')->first();
-        Log::info($STTCTHD);
+        // Log::info($STTCTHD);
+
         if ($STTCTHD == null) {
             $MaHD = 1;
         } else {
-            Log::info($STTCTHD);
+            // Log::info($STTCTHD);
             $MaHD = $STTCTHD->id + 1;
-            Log::info($MaHD);
+            // Log::info($MaHD);
         }
         $hoadon = HoaDon::create([
             'id' => $MaHD,
+            'MaKH' => $input["MaKH"],
             'NgayHD' => now(),
             'TongTien' => 0,
         ]);
-        $hoadon->save();
+        // $hoadon->save();
 
         // foreach ($input as $key => $val) {
         //     Log::info($val);
@@ -46,21 +51,8 @@ class ThanhToanController extends Controller
         // Log::info($input);
         //get value object
         $tongtien = 0;
-        foreach ($input as $key => $value) {
-            // $array = $value;
-
+        foreach ($listOrder as $key => $value) {
             // Log::info($value);
-            // // foreach ($array as $key => $value) {
-            // Log::info($array);
-            // // }
-
-            // if (is_string($data)) {
-            //     $data = json_decode($data,true);
-            // }
-            // // $jsonobj = '[{"MaSP":35,
-            // //     "SoLuong":37,"Size":43,"MaPL":1,"MaKM":0}]';
-            // $array = json_decode($data);
-            // Log::info($array);
 
 
             $thanhtien = 0;
@@ -70,8 +62,8 @@ class ThanhToanController extends Controller
             $Size = $value["Size"];
             $MaPL = $value["MaPL"];
             $MaKM = $value["MaKM"];
-            Log::info($MaSP);
-            if ($Size == "S") {
+            Log::info($Size);
+            if ($Size == "M") {
                 $sanpham = ChiTietSP::where('id', $MaSP)->first();
 
                 $thanhtien = $value["SoLuong"] * $sanpham->Gia;
@@ -101,13 +93,13 @@ class ThanhToanController extends Controller
             }
         }
         $hoadon->TongTien = $tongtien;
-        Log::info($thanhtien);
+        // Log::info($thanhtien);
 
         $hoadon->save();
         return response()->json([
             'status' => true,
             'message' => 'Thanh toán thành công',
-            'tongtien' => $tongtien,
+            'tongtien' => $hoadon,
         ], 200);
     }
 }
