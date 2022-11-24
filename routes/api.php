@@ -30,12 +30,13 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('posts', PostController::class);
  Route::post('/auth/register', [AuthController::class, 'createUser']);
  Route::post('/auth/login', [AuthController::class, 'loginUser']);
+Route::get('/auth/forgotpw', [AuthController::class, 'forgotpw']);
 //  Route::post('/auth/logout',[AuthController::class,'logoutUser']);
+Route::apiResource('sanpham', SanPhamController::class);
 
  Route::group(['middleware'=>['auth:sanctum']],function(){
-     Route::resource('/task', TasksController::class);
-    Route::post('/auth/logout',[AuthController::class,'logoutUser']);
-    Route::apiResource('sanpham', SanPhamController::class);
+    Route::resource('/task', TasksController::class);
+    Route::post('/auth/logout', [AuthController::class, 'logoutUser']);
     Route::post('/thanhtoan', [ThanhToanController::class, 'thanhToan']);
     Route::apiResource('blog', BlogController::class);
     Route::get('/user', [AuthController::class, 'getUser']);

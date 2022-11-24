@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('TenSP');
             $table->double('Gia');
             $table->bigInteger('MaPL')->unsigned();
+            $table->string('HinhAnh');	
             $table->timestamps();
 
             // $table->foreign('MaPL')->references('id')->on('phan_loais')

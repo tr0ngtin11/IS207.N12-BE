@@ -15,8 +15,7 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            "status" => "200",
+        return response()->json(["status" => true,
             "sanpham" => ChiTietSP::all(),
         ]);
     }
@@ -59,9 +58,20 @@ class SanPhamController extends Controller
      * @param  \App\Models\ChiTietSP  $chiTietSP
      * @return \Illuminate\Http\Response
      */
-    public function show(ChiTietSP $chiTietSP)
+    public function show(ChiTietSP $sanpham)
     {
-        //
+        $sanpham = ChiTietSP::find($sanpham->id);
+        try {
+            return response()->json([
+                'status' => true,
+                'sanpham' => $sanpham
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     /**

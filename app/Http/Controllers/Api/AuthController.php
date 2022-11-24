@@ -14,13 +14,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Mail;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 use Kreait\Firebase\Database;
 use PhpParser\Node\Stmt\TryCatch;
-
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailer;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -143,7 +144,7 @@ class AuthController extends Controller
             $user = NguoiDung::find($idUser);
             return response()->json([
                 'status' => true,
-                'token' => $user
+                'user' => $user
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -153,8 +154,28 @@ class AuthController extends Controller
         }
     }
 
+    public function forgotpw(Request $request)
+    {
+        //get value from request
+        $mail = $request->email;
+        $user = NguoiDung::where('email', $mail)->first();
+        $numberOTP = rand(100000, 999999);
+        Mail::send('mail.test', [], function ($message) use ($mail) {
+            $message->to($mail, 'MoriiCoffee');
+            $message->from('moriicoffeee@gmail.com');
+            $message->subject('Mã OTP');
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'OTP has been sent to your email',
+            'numberOTP' => $user,
+        ], 200);
+    
+
 
         
     
     
+}
 }
