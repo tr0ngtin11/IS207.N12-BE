@@ -23,11 +23,11 @@ class NguoiDung extends Authenticatable
         'email',
         'password',
         'role',
-        // 'ngdk',
-        // 'sdt',
-        // 'ngsinh',
-        // 'gioitinh',
-        // 'urlavt',
+        'ngdk',
+        'sdt',
+        'ngsinh',
+        'gioitinh',
+        'urlavt',
         
     ];
     protected $primaryKey = 'id';

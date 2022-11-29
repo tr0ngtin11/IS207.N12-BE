@@ -36,7 +36,9 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'role'=> $request->role,
                'password'=> hash::make($request->password),
-                // 'password'=> $request->password
+              
+          
+            
             ]);
             $customer = Khachhang::create([
                 'id' => $user->id,
@@ -142,6 +144,9 @@ class AuthController extends Controller
             $bearToken = $request->bearerToken();
             $idUser = PersonalAccessToken::findToken($bearToken)->tokenable_id;
             $user = NguoiDung::find($idUser);
+            $ngaysinh = new DateTimeImmutable($user->ngsinh);
+            $ngaysinh = $ngaysinh->format('Y-m-d');
+            $user->ngsinh =$ngaysinh;
             return response()->json([
                 'status' => true,
                 'user' => $user
@@ -151,6 +156,47 @@ class AuthController extends Controller
                 'status' => false,
                 'message' => $th->getMessage()
             ], 500);
+        }
+    }
+
+    public function updateUser(Request $request, NguoiDung $nguoidung)
+    {
+        try {
+            $nguoidung->update($request->all());
+            return response()->json([
+                'status' => true,
+                'message' => "Sửa thông tin thành công",
+                'user' => $nguoidung,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+    public function changePassword(Request $request)
+    {
+        //get password from database and compare with request
+
+        // if (!Auth::attempt($request->only(['password']))) {
+        //     return $this->error('', 'Mật khẩu không chính xác', 401);
+        // }
+        $user = NguoiDung::where('email', $request->email)->first();
+        $isMatchOldPassword = hash::check($request->password, $user->password);
+        if ($isMatchOldPassword == true) {
+            $user->password = hash::make($request->newPassword);
+            $user->save();
+            return response()->json([
+                'status' => true,
+                'user' => $user,
+                'message' => 'Đổi mật khẩu thành công'
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => 'Mật khẩu không chính xác'
+            ], 401);
         }
     }
 
