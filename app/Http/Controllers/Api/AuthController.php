@@ -193,8 +193,7 @@ class AuthController extends Controller
                 'message' => 'Đổi mật khẩu thành công'
             ], 200);
         } else {
-            return response()->json([
-                'status' => true,
+            return response()->json(['status' => false,
                 'message' => 'Mật khẩu không chính xác'
             ], 401);
         }

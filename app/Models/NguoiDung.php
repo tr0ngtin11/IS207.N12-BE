@@ -28,6 +28,7 @@ class NguoiDung extends Authenticatable
         'ngsinh',
         'gioitinh',
         'urlavt',
+        'diachi'
         
     ];
     protected $primaryKey = 'id';

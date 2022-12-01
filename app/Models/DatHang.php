@@ -18,7 +18,14 @@ class DatHang extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'MaHD',
+        'HoTen',
+        'SDT',
+        'Email',
+        'PTTT',
+        'MaKH',
         'TrangThai',
         'DiaChiNH',
+        'GhiChu',
     ];
 }

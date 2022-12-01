@@ -15,6 +15,8 @@ class ChiTietSP extends Model
         'Gia',
         'MaPL',
         'HinhAnh',
+        
+
             
         ];
 }

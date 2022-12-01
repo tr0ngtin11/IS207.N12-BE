@@ -14,15 +14,18 @@ return new class extends Migration
     public function up()
     {
         Schema::create('chi_tiet_h_d_s', function (Blueprint $table) {
-            $table->bigInteger('id')->unsigned();
+            $table->bigIncrements('id');
+            $table->bigInteger('MaHD')->unsigned();
             $table->bigInteger('MaSP')->unsigned();
             $table->integer('SoLuong');
+            $table->enum('Size', ['M', 'L']);
+            $table->double('Gia');
             $table->double('ThanhTien');
+            $table->text('Topping')->nullable();
             $table->timestamps();
-            $table->primary(['id','MaSP']);
 
-            
-            $table->foreign('id')->references('id')->on('hoa_dons')
+
+            $table->foreign('MaHD')->references('id')->on('hoa_dons')
             ->onUpdate('cascade')
             ->onDelete('cascade');
 

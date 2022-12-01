@@ -7,12 +7,13 @@ use App\Models\ChiTietHD;
 use Illuminate\Http\Request;
 use App\Trait\HttpResponses;
 use Illuminate\Support\Facades\Log;
-use App\Models\GiaSP;
 use App\Models\ChiTietSP;
 use App\Models\HoaDon;
 use App\Models\ChiTietHoaDon;
+use App\Models\DatHang;
 use App\Models\PhanLoai;
 use App\Models\KhuyenMai;
+use App\Models\NguoiDung;
 use PhpParser\Node\Expr\Cast\Object_;
 use stdClass;
 
@@ -26,7 +27,10 @@ class ThanhToanController extends Controller
         $input = $request->all();
         // Log::info($input["list"]);
         $listOrder = $input["list"];
-
+        // Log::info($listOrder);
+        // foreach ($listOrder as $key => $value) {
+        //     Log::info($value['Topping']);
+        // }
         $STTCTHD = HoaDon::latest('id')->first();
         // Log::info($STTCTHD);
 
@@ -43,63 +47,100 @@ class ThanhToanController extends Controller
             'NgayHD' => now(),
             'TongTien' => 0,
         ]);
-        // $hoadon->save();
 
-        // foreach ($input as $key => $val) {
-        //     Log::info($val);
-        // }
-        // Log::info($input);
-        //get value object
         $tongtien = 0;
         foreach ($listOrder as $key => $value) {
-            // Log::info($value);
 
-
+            $tentoppingArray = [];
             $thanhtien = 0;
-
+            $giatongTopping = 0;
+            $topping = $value['Topping'];
+            foreach ($topping as $key => $value1) {
+                Log::info($value1);
+            }
             $MaSP = $value["MaSP"];
             $SoLuong = $value["SoLuong"];
+          
             $Size = $value["Size"];
             $MaPL = $value["MaPL"];
             $MaKM = $value["MaKM"];
-            Log::info($Size);
+            // Log::info($Size);
             if ($Size == "M") {
                 $sanpham = ChiTietSP::where('id', $MaSP)->first();
-
-                $thanhtien = $value["SoLuong"] * $sanpham->Gia;
+                if ($topping != null) {
+                    foreach ($topping as $key => $mangTopping) {
+                        Log::info($mangTopping);
+                        $topping = ChiTietSP::where('id', $mangTopping['MaSP'])->first();
+                        $giatopping = $topping->Gia;
+                        $giatongTopping += $giatopping;
+                        array_push($tentoppingArray, $topping->TenSP);
+                    }
+                }
+                $thanhtien += $value["SoLuong"] * ($sanpham->Gia + $giatongTopping);
                 Log::info($thanhtien);
                 $tongtien += $thanhtien;
+                $tentoppingString =  (implode(",", $tentoppingArray));
+                Log::info($tentoppingString);
                 $cthd = ChiTietHD::create([
-                    'id' => $MaHD,
+                    'MaHD' => $MaHD,
                     'MaSP' => $MaSP,
                     'SoLuong' => $SoLuong,
+                    'Size' => $Size,
+                    'Gia' => $thanhtien,
                     'ThanhTien' => $thanhtien,
+                    'Topping' => $tentoppingString,
                 ]);
                 $cthd->save();
-            } else {
-                $sanpham = GiaSP::where('MaSP', $MaSP)->where('Size', $Size)->first();
-
-                $thanhtien = $value["SoLuong"] * $sanpham->Gia;
+            } else if ($Size == "L") {
+                $sanpham = ChiTietSP::where('id', $MaSP)->first();
+                if ($topping != null) {
+                    foreach ($topping as $key => $mangTopping) {
+                        Log::info($mangTopping);
+                        $topping = ChiTietSP::where('id', $mangTopping['MaSP'])->first();
+                        $giatopping = $topping->Gia;
+                        $giatongTopping += $giatopping;
+                        array_push($tentoppingArray, $topping->TenSP);
+                    }
+                }
+                $thanhtien += $value["SoLuong"] * ($sanpham->Gia + $giatongTopping) + 5000;
                 Log::info($thanhtien);
-
                 $tongtien += $thanhtien;
+                $tentoppingString =  (implode(",", $tentoppingArray));
+                Log::info($tentoppingString);
                 $cthd = ChiTietHD::create([
-                    'id' => $MaHD,
+                    'MaHD' => $MaHD,
                     'MaSP' => $MaSP,
                     'SoLuong' => $SoLuong,
+                    'Size' => $Size,
+                    'Gia' => $thanhtien,
                     'ThanhTien' => $thanhtien,
+                    'Topping' => $tentoppingString,
                 ]);
                 $cthd->save();
-            }
+            } 
         }
         $hoadon->TongTien = $tongtien;
-        // Log::info($thanhtien);
 
         $hoadon->save();
+        $nguoidung = NguoiDung::where('id', $input["MaKH"])->first();
+        $donhang = DatHang::create([
+            'MaHD' => $MaHD,
+            'HoTen' => $nguoidung->hoten,
+            'SDT' => $nguoidung->sdt,
+            'Email' => $nguoidung->email,
+            'PTTT' => "COD",
+            'MaKH' => $input["MaKH"],
+            'TrangThai' => "Chuaxacnhan",
+            'DiaChiNH' => $nguoidung->diachi,
+
+
+
+        ]);
+        $donhang->save();
         return response()->json([
             'status' => true,
             'message' => 'Thanh toán thành công',
-            'tongtien' => $hoadon,
+            'donhang' => $donhang,
         ], 200);
     }
 }

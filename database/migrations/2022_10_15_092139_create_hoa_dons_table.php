@@ -18,6 +18,7 @@ return new class extends Migration
            $table->bigInteger('MaNV')->unsigned();
            $table->bigInteger('MaKH')->unsigned();
            $table->bigInteger('MaCH')->unsigned();
+           $table->bigInteger('MaKM')->unsigned();
             $table->dateTime('NgayHD');
             $table->double('TongTien');
             $table->timestamps();
@@ -30,6 +31,9 @@ return new class extends Migration
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
             // $table->foreign('MaCH')->references('id')->on('cua_hangs')
+            // ->onUpdate('cascade')
+            // ->onDelete('cascade');
+            // $table->foreign('MaKM')->references('id')->on('khuyen_mais')
             // ->onUpdate('cascade')
             // ->onDelete('cascade');
         });

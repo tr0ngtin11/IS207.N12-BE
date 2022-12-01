@@ -25,6 +25,7 @@ return new class extends Migration
             $table->dateTime('ngsinh')->nullable();
             $table->boolean('gioitinh')->nullable();
             $table->string('urlavt')->nullable();
+            $table->string('diachi')->nullable();
             $table->timestamps();
         });
     }
