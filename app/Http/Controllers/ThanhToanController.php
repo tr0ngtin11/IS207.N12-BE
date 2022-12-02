@@ -24,6 +24,7 @@ class ThanhToanController extends Controller
 
     public function thanhToan(Request $request)
     {
+        Log::info($request);
         $input = $request->all();
         // Log::info($input["list"]);
         $listOrder = $input["list"];
@@ -55,21 +56,21 @@ class ThanhToanController extends Controller
             $thanhtien = 0;
             $giatongTopping = 0;
             $topping = $value['Topping'];
-            foreach ($topping as $key => $value1) {
-                Log::info($value1);
-            }
+            // foreach ($topping as $key => $value1) {
+            //     Log::info($value1);
+            // }
             $MaSP = $value["MaSP"];
             $SoLuong = $value["SoLuong"];
           
             $Size = $value["Size"];
             $MaPL = $value["MaPL"];
             $MaKM = $value["MaKM"];
-            // Log::info($Size);
+            Log::info($Size);
             if ($Size == "M") {
                 $sanpham = ChiTietSP::where('id', $MaSP)->first();
                 if ($topping != null) {
                     foreach ($topping as $key => $mangTopping) {
-                        Log::info($mangTopping);
+                        // Log::info($mangTopping);
                         $topping = ChiTietSP::where('id', $mangTopping['MaSP'])->first();
                         $giatopping = $topping->Gia;
                         $giatongTopping += $giatopping;
@@ -77,10 +78,10 @@ class ThanhToanController extends Controller
                     }
                 }
                 $thanhtien += $value["SoLuong"] * ($sanpham->Gia + $giatongTopping);
-                Log::info($thanhtien);
+                // Log::info($thanhtien);
                 $tongtien += $thanhtien;
                 $tentoppingString =  (implode(",", $tentoppingArray));
-                Log::info($tentoppingString);
+                // Log::info($tentoppingString);
                 $cthd = ChiTietHD::create([
                     'MaHD' => $MaHD,
                     'MaSP' => $MaSP,
@@ -95,7 +96,7 @@ class ThanhToanController extends Controller
                 $sanpham = ChiTietSP::where('id', $MaSP)->first();
                 if ($topping != null) {
                     foreach ($topping as $key => $mangTopping) {
-                        Log::info($mangTopping);
+                    
                         $topping = ChiTietSP::where('id', $mangTopping['MaSP'])->first();
                         $giatopping = $topping->Gia;
                         $giatongTopping += $giatopping;
@@ -103,10 +104,10 @@ class ThanhToanController extends Controller
                     }
                 }
                 $thanhtien += $value["SoLuong"] * ($sanpham->Gia + $giatongTopping) + 5000;
-                Log::info($thanhtien);
+                // Log::info($thanhtien);
                 $tongtien += $thanhtien;
                 $tentoppingString =  (implode(",", $tentoppingArray));
-                Log::info($tentoppingString);
+                // Log::info($tentoppingString);
                 $cthd = ChiTietHD::create([
                     'MaHD' => $MaHD,
                     'MaSP' => $MaSP,
@@ -119,7 +120,7 @@ class ThanhToanController extends Controller
                 $cthd->save();
             } 
         }
-        $hoadon->TongTien = $tongtien;
+        $hoadon->TongTien = $tongtien + 40000;
 
         $hoadon->save();
         $nguoidung = NguoiDung::where('id', $input["MaKH"])->first();

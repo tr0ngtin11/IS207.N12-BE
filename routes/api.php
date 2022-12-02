@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\DatHangController;
+use App\Http\Controllers\HoaDonController;
 use App\Http\Controllers\NguoiDungController;
 use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\TasksController;
@@ -41,6 +43,8 @@ Route::apiResource('sanpham', SanPhamController::class);
     Route::post('/thanhtoan', [ThanhToanController::class, 'thanhToan']);
     Route::apiResource('blog', BlogController::class);
     Route::get('/user', [AuthController::class, 'getUser']);
+    Route::get('/donhang/{id}', [DatHangController::class, 'GetDonHang']);
+    Route::get('/hoadon/{id}', [HoaDonController::class, 'GetHoaDon']);
     Route::put('/user/{nguoidung}', [AuthController::class, 'updateUser']);
     Route::post('/user/changepassword/{nguoidung}', [AuthController::class, 'changePassword']);
 });
