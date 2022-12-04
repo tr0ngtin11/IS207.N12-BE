@@ -34,6 +34,8 @@ Route::apiResource('posts', PostController::class);
  Route::post('/auth/register', [AuthController::class, 'createUser']);
  Route::post('/auth/login', [AuthController::class, 'loginUser']);
 Route::get('/auth/forgotpw', [AuthController::class, 'forgotpw']);
+Route::post('/auth/resetpw', [AuthController::class, 'resetPassword']);
+Route::get('/auth/checkEmail/{email}', [AuthController::class, 'checkEmailExist']);
 //  Route::post('/auth/logout',[AuthController::class,'logoutUser']);
 Route::apiResource('sanpham', SanPhamController::class);
 

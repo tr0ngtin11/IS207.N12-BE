@@ -22,6 +22,7 @@ use Kreait\Firebase\Database;
 use PhpParser\Node\Stmt\TryCatch;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailer;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -223,4 +224,34 @@ class AuthController extends Controller
     
     
 }
+
+    public function checkEmailExist($email)
+    {
+        Log::info($email);
+        $user = NguoiDung::where('email', $email)->first();
+        if ($user) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Email có tồn tại',
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Email không tồn tại',
+            ], 401);
+        }
+    }
+
+    public function resetPassword(Request $request)
+    {
+        Log::info($request->all());
+        $user = NguoiDung::where('email', $request->email)->first();
+        $user->password = hash::make($request->newPassword);
+        $user->save();
+        return response()->json([
+            'status' => true,
+            'user' => $user,
+            'message' => 'Đổi mật khẩu thành công'
+        ], 200);
+    }
 }

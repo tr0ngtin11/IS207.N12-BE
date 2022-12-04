@@ -138,6 +138,7 @@ class ThanhToanController extends Controller
 
         ]);
         $donhang->save();
+        Log::info($donhang);
         return response()->json([
             'status' => true,
             'message' => 'Thanh toán thành công',
