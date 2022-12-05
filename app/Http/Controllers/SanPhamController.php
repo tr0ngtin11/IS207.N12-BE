@@ -15,8 +15,12 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        return response()->json(["status" => true,
-            "sanpham" => ChiTietSP::all(),
+        $sanphamList = ChiTietSP::paginate(5);
+
+
+        return response()->json([
+            "status" => true,
+            "sanpham" => $sanphamList,
         ]);
     }
 
