@@ -16,11 +16,12 @@ class SanPhamController extends Controller
     public function index()
     {
         $sanphamList = ChiTietSP::paginate(5);
-
+        $sanpham_admin = ChiTietSP::all();
 
         return response()->json([
             "status" => true,
             "sanpham" => $sanphamList,
+            "sanpham_admin" => $sanpham_admin,
         ]);
     }
 

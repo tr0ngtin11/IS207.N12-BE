@@ -28,4 +28,6 @@ class HoaDonController extends Controller
             'hoadon' => $hoadon,
         ], 200);
     }
+
+    
 }

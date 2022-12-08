@@ -32,4 +32,14 @@ class DatHangController extends Controller
             'donhang' => $donhang,
         ], 200);
     }
+
+    public function DeleteDonHang($id)
+    {
+        $donhang = DatHang::where('MaHD', $id)->first();
+        $donhang->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Xóa thành công',
+        ], 200);
+    }
 }

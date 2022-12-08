@@ -38,6 +38,9 @@ Route::post('/auth/resetpw', [AuthController::class, 'resetPassword']);
 Route::get('/auth/checkEmail/{email}', [AuthController::class, 'checkEmailExist']);
 //  Route::post('/auth/logout',[AuthController::class,'logoutUser']);
 Route::apiResource('sanpham', SanPhamController::class);
+Route::apiResource('nguoidung', NguoiDungController::class);
+
+
 
  Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::resource('/task', TasksController::class);
@@ -47,6 +50,7 @@ Route::apiResource('sanpham', SanPhamController::class);
     Route::get('/user', [AuthController::class, 'getUser']);
     Route::get('/donhang/{id}', [DatHangController::class, 'GetDonHang']);
     Route::get('/hoadon/{id}', [HoaDonController::class, 'GetHoaDon']);
+    Route::delete('/donhang/{id}', [DatHangController::class, 'DeleteDonHang']);
     Route::put('/user/{nguoidung}', [AuthController::class, 'updateUser']);
     Route::post('/user/changepassword/{nguoidung}', [AuthController::class, 'changePassword']);
 });
