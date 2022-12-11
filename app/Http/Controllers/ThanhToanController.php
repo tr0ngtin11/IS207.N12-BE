@@ -131,7 +131,7 @@ class ThanhToanController extends Controller
             'Email' => $nguoidung->email,
             'PTTT' => "COD",
             'MaKH' => $input["MaKH"],
-            'TrangThai' => "Chuaxacnhan",
+            'TrangThai' => "Chưa xác nhận",
             'DiaChiNH' => $nguoidung->diachi,
 
 

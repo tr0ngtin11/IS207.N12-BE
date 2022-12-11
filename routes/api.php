@@ -39,7 +39,8 @@ Route::get('/auth/checkEmail/{email}', [AuthController::class, 'checkEmailExist'
 //  Route::post('/auth/logout',[AuthController::class,'logoutUser']);
 Route::apiResource('sanpham', SanPhamController::class);
 Route::apiResource('nguoidung', NguoiDungController::class);
-
+Route::get('/donhang', [DatHangController::class, 'GetAllDonHang']);
+Route::put('/donhang/{donhang}', [DatHangController::class, 'confirmTrangThaiDonHang']);
 
 
  Route::group(['middleware'=>['auth:sanctum']],function(){
