@@ -12,7 +12,23 @@ use Illuminate\Support\Facades\Log;
 class DatHangController extends Controller
 {
     use HttpResponses;
+    public function GetDonHangMaHD($id)
+    {
+        $dathang = DatHang::where('MaHD', $id)->get();
+        foreach ($dathang as $key => $value) {
 
+            $MaHD = $value->MaHD;
+            $hoadon = HoaDon::where('id', $MaHD)->first();
+            $tongtien = $hoadon->TongTien;
+            $value['tongtien'] = $tongtien;
+            $value['ngaythanhtoan'] =  $value['created_at']->format('Y-m-d H:i:s');
+        }
+
+        return response()->json([
+            'status' => true,
+            'donhang' => $dathang,
+        ], 200);
+    }
 
 
     public function GetDonHang($id)
@@ -32,6 +48,12 @@ class DatHangController extends Controller
             'donhang' => $donhang,
         ], 200);
     }
+
+
+
+
+
+  
 
     public function GetAllDonHang()
     {
@@ -61,10 +83,10 @@ class DatHangController extends Controller
         ], 200);
     }
 
-    public function confirmTrangThaiDonHang(Request $request, DatHang $dathang)
+    public function confirmTrangThaiDonHang($id)
     {
-        Log::info($request);
-        $dathang = DatHang::where('id', $request->id)->first();
+        Log::info($id);
+        $dathang = DatHang::where('id', $id)->first();
         Log::info($dathang);
         if ($dathang->TrangThai == "Chưa xác nhận") {
             $dathang->TrangThai = "Đang giao";
@@ -75,4 +97,36 @@ class DatHangController extends Controller
             'message' => 'Xác nhận thành công',
         ], 200);
     }
+    public function cancelTrangThaiDonHang($id)
+    {
+        Log::info($id);
+        $dathang = DatHang::where('MaHD', $id)->first();
+        Log::info($dathang);
+        if ($dathang->TrangThai == "Chưa xác nhận" || $dathang->TrangThai == "Đang giao") {
+            $dathang->TrangThai = "Đã hủy";
+            $dathang->save();
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Xác nhận thành công',
+        ], 200);
+    }
+    public function doneTrangThaiDonHang($id)
+    {
+        Log::info($id);
+        $dathang = DatHang::where('MaHD', $id)->first();
+        Log::info($dathang);
+        if ($dathang->TrangThai == "Đang giao") {
+            $dathang->TrangThai = "Đã giao";
+            $dathang->save();
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Xác nhận thành công',
+        ], 200);
+    }
+
+
+
+    
 }

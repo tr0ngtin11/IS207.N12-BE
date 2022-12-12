@@ -22,6 +22,7 @@ class HoaDon extends Model
         'MaKH',
         'NgayHD',
         'TongTien',
+        'isOnline'
     ];
 
 }

@@ -40,7 +40,9 @@ Route::get('/auth/checkEmail/{email}', [AuthController::class, 'checkEmailExist'
 Route::apiResource('sanpham', SanPhamController::class);
 Route::apiResource('nguoidung', NguoiDungController::class);
 Route::get('/donhang', [DatHangController::class, 'GetAllDonHang']);
-Route::put('/donhang/{donhang}', [DatHangController::class, 'confirmTrangThaiDonHang']);
+Route::put('/donhang/{id}', [DatHangController::class, 'confirmTrangThaiDonHang']);
+Route::put('/donhangcancel/{id}', [DatHangController::class, 'cancelTrangThaiDonHang']);
+Route::put('/donhangdone/{id}', [DatHangController::class, 'doneTrangThaiDonHang']);
 
 
  Route::group(['middleware'=>['auth:sanctum']],function(){
@@ -50,7 +52,10 @@ Route::put('/donhang/{donhang}', [DatHangController::class, 'confirmTrangThaiDon
     Route::apiResource('blog', BlogController::class);
     Route::get('/user', [AuthController::class, 'getUser']);
     Route::get('/donhang/{id}', [DatHangController::class, 'GetDonHang']);
-    Route::get('/hoadon/{id}', [HoaDonController::class, 'GetHoaDon']);
+    Route::get('/donhangmahd/{id}', [DatHangController::class, 'GetDonHangMaHD']);
+    Route::get('/donhangmahd/{id}', [DatHangController::class, 'GetDonHangMaHD']);
+    Route::get('/hoadon/{id}', [HoaDonController::class, 'GetCTHDHoaDon']);
+    Route::get('/hoadon1', [HoaDonController::class, 'GetHoaDon']);
     Route::delete('/donhang/{id}', [DatHangController::class, 'DeleteDonHang']);
     Route::put('/user/{nguoidung}', [AuthController::class, 'updateUser']);
     Route::post('/user/changepassword/{nguoidung}', [AuthController::class, 'changePassword']);

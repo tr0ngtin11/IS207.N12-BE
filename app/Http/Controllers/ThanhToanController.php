@@ -47,6 +47,7 @@ class ThanhToanController extends Controller
             'MaKH' => $input["MaKH"],
             'NgayHD' => now(),
             'TongTien' => 0,
+            'isOnline' => 1,
         ]);
 
         $tongtien = 0;

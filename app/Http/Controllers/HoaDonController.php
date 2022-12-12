@@ -7,6 +7,7 @@ use App\Models\ChiTietSP;
 use Illuminate\Http\Request;
 use App\Models\HoaDon;
 use App\Models\DatHang;
+use App\Models\NguoiDung;
 
 class HoaDonController extends Controller
 {
@@ -14,9 +15,10 @@ class HoaDonController extends Controller
 
 
 
-    public function GetHoaDon($id)
+    public function GetCTHDHoaDon($id)
     {
         $hoadon = ChiTietHD::where('MaHD', $id)->get();
+       
 
         foreach ($hoadon as $key => $value) {
             $MaSP = $value->MaSP;
@@ -28,6 +30,22 @@ class HoaDonController extends Controller
             'hoadon' => $hoadon,
         ], 200);
     }
+
+    public function GetHoaDon()
+    {
+        $hoadon1 = HoaDon::all();
+
+        foreach ($hoadon1 as $key => $value) {
+            $maKH = $value['MaKH'];
+            $khachhang = NguoiDung::where('id', $maKH)->first();
+            $value['hoten'] = $khachhang->hoten;
+        }
+
+
+        return response()->json([
+            'status' => true,
+            'hoadon' => $hoadon1,
+        ], 200);
+    }
    
-    
 }
