@@ -39,6 +39,8 @@ class HoaDonController extends Controller
             $maKH = $value['MaKH'];
             $khachhang = NguoiDung::where('id', $maKH)->first();
             $value['hoten'] = $khachhang->hoten;
+            $value['sdt'] = $khachhang->sdt;
+            $value['diachi'] = $khachhang->diachi;
         }
 
 

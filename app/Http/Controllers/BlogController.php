@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\NguoiDung;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
 {
@@ -14,9 +16,15 @@ class BlogController extends Controller
      */
     public function index()
     {
+        $blog_array = Blog::all();
+        foreach ($blog_array as $key => $value) {
+            $nguoidung = NguoiDung::where('id', $value->MaND)->first();
+            $value['tacgia'] = $nguoidung->hoten;
+        }
+
         return response()->json([
-            "status" => "200",
-            "blog" => Blog::all(),
+            "status" => true,
+            "blog" => $blog_array,
         ]);
     }
 
@@ -39,7 +47,17 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         try {
-            $blog = Blog::create($request->all());
+            $blog = Blog::create(
+                [
+                    'MaND' => $request->MaND,
+                    'TieuDe' => $request->TieuDe,
+                    'MoTa' => $request->MoTa,
+                    'NoiDung' => $request->NoiDung,
+                    'UrlImage' => $request->UrlImage,
+                    'NgayBlog' => now(),
+                ]
+            );
+          
             return response()->json([
                 'status' => true,
                 'sanpham' => $blog
@@ -60,7 +78,13 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        //
+        $blog = Blog::find($blog->id);
+        $nguoidung = NguoiDung::where('id', $blog->MaND)->first();
+        $blog['tacgia'] = $nguoidung->hoten;
+        return response()->json([
+            'status' => true,
+            'blog' => $blog
+        ]);
     }
 
     /**

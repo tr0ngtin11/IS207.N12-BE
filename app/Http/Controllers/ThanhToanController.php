@@ -42,6 +42,17 @@ class ThanhToanController extends Controller
             $MaHD = $STTCTHD->id + 1;
             // Log::info($MaHD);
         }
+        $makh =   $input["MaKH"];
+        $khachhang = NguoiDung::where('id', $makh)->first();
+        if ($khachhang->role != "khachhang") {
+            $hoadon = HoaDon::create([
+                'id' => $MaHD,
+                'MaKH' => $input["MaKH"],
+                'NgayHD' => now(),
+                'TongTien' => 0,
+                'isOnline' => 0,
+            ]);
+        } else {
         $hoadon = HoaDon::create([
             'id' => $MaHD,
             'MaKH' => $input["MaKH"],
@@ -49,6 +60,7 @@ class ThanhToanController extends Controller
             'TongTien' => 0,
             'isOnline' => 1,
         ]);
+        }
 
         $tongtien = 0;
         foreach ($listOrder as $key => $value) {
