@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DatHangController;
 use App\Http\Controllers\HoaDonController;
+use App\Http\Controllers\KhuyenmaiController;
 use App\Http\Controllers\NguoiDungController;
 use App\Http\Controllers\SanPhamController;
 use App\Http\Controllers\TasksController;
@@ -46,6 +47,7 @@ Route::put('/donhangdone/{id}', [DatHangController::class, 'doneTrangThaiDonHang
 
 
  Route::group(['middleware'=>['auth:sanctum']],function(){
+    Route::apiResource('khuyenmai', KhuyenmaiController::class);
     Route::resource('/task', TasksController::class);
     Route::post('/auth/logout', [AuthController::class, 'logoutUser']);
     Route::post('/thanhtoan', [ThanhToanController::class, 'thanhToan']);

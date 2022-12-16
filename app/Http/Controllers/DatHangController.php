@@ -115,6 +115,9 @@ class DatHangController extends Controller
     {
         Log::info($id);
         $dathang = DatHang::where('MaHD', $id)->first();
+        if ($dathang == null) {
+            $dathang = DatHang::where('id', $id)->first();
+        }
         Log::info($dathang);
         if ($dathang->TrangThai == "Đang giao") {
             $dathang->TrangThai = "Đã giao";
@@ -125,6 +128,7 @@ class DatHangController extends Controller
             'message' => 'Xác nhận thành công',
         ], 200);
     }
+   
 
 
 

@@ -16,7 +16,9 @@ class KhuyenMai extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-    'phantramKM'
+        'phantramKM',
+        'TenKM',
+        'Status',
         
     ];
 
