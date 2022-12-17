@@ -26,7 +26,7 @@ class ThanhToanController extends Controller
     {
         Log::info($request);
         $input = $request->all();
-        // Log::info($input["list"]);
+        Log::info($input);
         $listOrder = $input["list"];
         // Log::info($listOrder);
         // foreach ($listOrder as $key => $value) {
@@ -63,6 +63,7 @@ class ThanhToanController extends Controller
         }
 
         $tongtien = 0;
+        $maKM = 0;
         foreach ($listOrder as $key => $value) {
 
             $tentoppingArray = [];
@@ -74,10 +75,10 @@ class ThanhToanController extends Controller
             // }
             $MaSP = $value["MaSP"];
             $SoLuong = $value["SoLuong"];
-          
+                
             $Size = $value["Size"];
             $MaPL = $value["MaPL"];
-            $MaKM = $value["MaKM"];
+            $maKM = $value["MaKM"];
             Log::info($Size);
             if ($Size == "M") {
                 $sanpham = ChiTietSP::where('id', $MaSP)->first();
@@ -133,8 +134,12 @@ class ThanhToanController extends Controller
                 $cthd->save();
             } 
         }
-        $hoadon->TongTien = $tongtien + 40000;
+        $khuyenmai = KhuyenMai::where('id', $maKM)->first();
+        $tongtien  = $tongtien  - $khuyenmai->phantramKM * $tongtien / 100;
+        $hoadon->MaKM = $maKM;
+        $hoadon->TongTien = $tongtien + 30000;
 
+        Log::info($tongtien);
         $hoadon->save();
         $nguoidung = NguoiDung::where('id', $input["MaKH"])->first();
         $donhang = DatHang::create([

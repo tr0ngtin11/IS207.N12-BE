@@ -15,7 +15,7 @@ class SanPhamController extends Controller
      */
     public function index()
     {
-        $sanphamList = ChiTietSP::paginate(5);
+        $sanphamList = ChiTietSP::paginate(10);
         $sanpham_admin = ChiTietSP::all();
 
         return response()->json([
