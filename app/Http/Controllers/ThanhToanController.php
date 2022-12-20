@@ -26,7 +26,7 @@ class ThanhToanController extends Controller
     {
         Log::info($request);
         $input = $request->all();
-        Log::info($input);
+        // Log::info($input);
         $listOrder = $input["list"];
         // Log::info($listOrder);
         // foreach ($listOrder as $key => $value) {
@@ -79,8 +79,8 @@ class ThanhToanController extends Controller
             $Size = $value["Size"];
             $MaPL = $value["MaPL"];
             $maKM = $value["MaKM"];
-            Log::info($value["MaKM"]);
-            Log::info($Size);
+            // Log::info($value["MaKM"]);
+            // Log::info($Size);
             if ($Size == "M") {
                 $sanpham = ChiTietSP::where('id', $MaSP)->first();
                 if ($topping != null) {
@@ -118,8 +118,8 @@ class ThanhToanController extends Controller
                         array_push($tentoppingArray, $topping->TenSP);
                     }
                 }
-                $thanhtien += $value["SoLuong"] * ($sanpham->Gia + $giatongTopping) + 5000;
-                // Log::info($thanhtien);
+                $thanhtien += $value["SoLuong"] * ($sanpham->Gia + $giatongTopping) + 5000 * $value["SoLuong"];
+                Log::info($thanhtien);
                 $tongtien += $thanhtien;
                 $tentoppingString =  (implode(",", $tentoppingArray));
                 // Log::info($tentoppingString);
@@ -136,28 +136,47 @@ class ThanhToanController extends Controller
             } 
         }
         $khuyenmai = KhuyenMai::where('id', $maKM)->first();
-
+        Log::info($tongtien);
 
         $hoadon->TienKM = $khuyenmai->phantramKM * $tongtien / 100;
+        Log::info($hoadon->TienKM);
         $tongtien  = $tongtien  - $khuyenmai->phantramKM * $tongtien / 100;
+        Log::info($tongtien);
         $hoadon->MaKM = $maKM;
-        $hoadon->TongTien = $tongtien + 30000;
+        if ($khachhang->role != "khachhang") {
+
+            $hoadon->TongTien = $tongtien;
+        } else {
+
+            $hoadon->TongTien = $tongtien + 30000;
+        }
 
         $hoadon->save();
         $nguoidung = NguoiDung::where('id', $input["MaKH"])->first();
-        $donhang = DatHang::create([
-            'MaHD' => $MaHD,
-            'HoTen' => $nguoidung->hoten,
-            'SDT' => $nguoidung->sdt,
-            'Email' => $nguoidung->email,
-            'PTTT' => "COD",
-            'MaKH' => $input["MaKH"],
-            'TrangThai' => "Chưa xác nhận",
-            'DiaChiNH' => $nguoidung->diachi,
-
-
-
-        ]);
+        if ($khachhang->role != "khachhang") {
+            $donhang = DatHang::create([
+                'MaHD' => $MaHD,
+                'HoTen' => $nguoidung->hoten,
+                'SDT' => $nguoidung->sdt,
+                'Email' => $nguoidung->email,
+                'PTTT' => "COD",
+                'MaKH' => $input["MaKH"],
+                'TrangThai' => "Đã giao",
+                'DiaChiNH' => $nguoidung->diachi,
+            ]);
+        } else {
+            $donhang = DatHang::create([
+                'MaHD' => $MaHD,
+                'HoTen' => $nguoidung->hoten,
+                'SDT' => $nguoidung->sdt,
+                'Email' => $nguoidung->email,
+                'PTTT' => "COD",
+                'MaKH' => $input["MaKH"],
+                'TrangThai' => "Chưa xác nhận",
+                'DiaChiNH' => $nguoidung->diachi,
+            ]);
+        }
+       
         $donhang->save();
         Log::info($donhang);
         return response()->json([
