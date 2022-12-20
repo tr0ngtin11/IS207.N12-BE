@@ -79,6 +79,7 @@ class ThanhToanController extends Controller
             $Size = $value["Size"];
             $MaPL = $value["MaPL"];
             $maKM = $value["MaKM"];
+            Log::info($value["MaKM"]);
             Log::info($Size);
             if ($Size == "M") {
                 $sanpham = ChiTietSP::where('id', $MaSP)->first();
@@ -135,11 +136,13 @@ class ThanhToanController extends Controller
             } 
         }
         $khuyenmai = KhuyenMai::where('id', $maKM)->first();
+
+
+        $hoadon->TienKM = $khuyenmai->phantramKM * $tongtien / 100;
         $tongtien  = $tongtien  - $khuyenmai->phantramKM * $tongtien / 100;
         $hoadon->MaKM = $maKM;
         $hoadon->TongTien = $tongtien + 30000;
 
-        Log::info($tongtien);
         $hoadon->save();
         $nguoidung = NguoiDung::where('id', $input["MaKH"])->first();
         $donhang = DatHang::create([

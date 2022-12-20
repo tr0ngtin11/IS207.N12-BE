@@ -45,13 +45,13 @@ Route::put('/donhang/{id}', [DatHangController::class, 'confirmTrangThaiDonHang'
 Route::put('/donhangcancel/{id}', [DatHangController::class, 'cancelTrangThaiDonHang']);
 Route::put('/donhangdone/{id}', [DatHangController::class, 'doneTrangThaiDonHang']);
 
+Route::apiResource('blog', BlogController::class);
 
  Route::group(['middleware'=>['auth:sanctum']],function(){
     Route::apiResource('khuyenmai', KhuyenmaiController::class);
     Route::resource('/task', TasksController::class);
     Route::post('/auth/logout', [AuthController::class, 'logoutUser']);
     Route::post('/thanhtoan', [ThanhToanController::class, 'thanhToan']);
-    Route::apiResource('blog', BlogController::class);
     Route::get('/user', [AuthController::class, 'getUser']);
     Route::get('/donhang/{id}', [DatHangController::class, 'GetDonHang']);
     Route::get('/donhangmahd/{id}', [DatHangController::class, 'GetDonHangMaHD']);
