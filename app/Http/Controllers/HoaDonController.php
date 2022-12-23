@@ -27,6 +27,7 @@ class HoaDonController extends Controller
             $sanpham = ChiTietSP::where('id', $MaSP)->first();
             $value['TenSP'] = $sanpham->TenSP;
             $value['PhanLoai'] = $sanpham->MaPL;
+            $value['HinhAnh'] = $sanpham->HinhAnh;
         }
         return response()->json([
             'status' => true,
@@ -39,7 +40,9 @@ class HoaDonController extends Controller
         $hoadon1 = HoaDon::all();
 
         foreach ($hoadon1 as $key => $value) {
-        
+            $idDatHang = $value['id'];
+            $dathang = DatHang::where('MaHD', $idDatHang)->first();
+            $value['TrangThai'] = $dathang->TrangThai;
             $maKH = $value['MaKH'];
             $khuyenmai = KhuyenMai::where('id', $value['MaKM'])->first();
         

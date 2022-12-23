@@ -36,6 +36,7 @@ class AuthController extends Controller
                 'hoten' => $request->hoten,
                 'email' => $request->email,
                 'role'=> $request->role,
+                'urlavt' => $request->urlavt,
                'password'=> hash::make($request->password),
                
               
