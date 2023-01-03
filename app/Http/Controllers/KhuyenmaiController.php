@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Khuyenmai;
+use App\Models\KhuyenMai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -17,7 +17,7 @@ class KhuyenmaiController extends Controller
     {
         return response()->json([
             'status' => true,
-            'khuyenmai' => Khuyenmai::all(),
+            'khuyenmai' => KhuyenMai::all(),
         ], 200);
     }
 
