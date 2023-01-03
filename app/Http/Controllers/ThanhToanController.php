@@ -153,6 +153,7 @@ class ThanhToanController extends Controller
 
         $hoadon->save();
         $nguoidung = NguoiDung::where('id', $input["MaKH"])->first();
+        $ghichu = $input["GhiChu"] != null ? $input["GhiChu"] : "";
         if ($khachhang->role != "khachhang") {
             $donhang = DatHang::create([
                 'MaHD' => $MaHD,
@@ -163,7 +164,7 @@ class ThanhToanController extends Controller
                 'MaKH' => $input["MaKH"],
                 'TrangThai' => "Đã giao",
                 'DiaChiNH' => $input["DiaChi"],
-                'GhiChu' => $input["GhiChu"],
+                'GhiChu' => $ghichu,
             ]);
         } else {
             $donhang = DatHang::create([
@@ -175,7 +176,7 @@ class ThanhToanController extends Controller
                 'MaKH' => $input["MaKH"],
                 'TrangThai' => "Chưa xác nhận",
                 'DiaChiNH' => $input["DiaChi"],
-                'GhiChu' => $input["GhiChu"],
+                'GhiChu' => $ghichu,
             ]);
         }
        
