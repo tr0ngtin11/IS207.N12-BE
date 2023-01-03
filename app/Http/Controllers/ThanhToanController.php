@@ -157,23 +157,25 @@ class ThanhToanController extends Controller
             $donhang = DatHang::create([
                 'MaHD' => $MaHD,
                 'HoTen' => $nguoidung->hoten,
-                'SDT' => $nguoidung->sdt,
+                'SDT' => $input["SDT"],
                 'Email' => $nguoidung->email,
                 'PTTT' => "COD",
                 'MaKH' => $input["MaKH"],
                 'TrangThai' => "Đã giao",
-                'DiaChiNH' => $nguoidung->diachi,
+                'DiaChiNH' => $input["DiaChi"],
+                'GhiChu' => $input["GhiChu"],
             ]);
         } else {
             $donhang = DatHang::create([
                 'MaHD' => $MaHD,
                 'HoTen' => $nguoidung->hoten,
-                'SDT' => $nguoidung->sdt,
+                'SDT' => $input["SDT"],
                 'Email' => $nguoidung->email,
                 'PTTT' => "COD",
                 'MaKH' => $input["MaKH"],
                 'TrangThai' => "Chưa xác nhận",
-                'DiaChiNH' => $nguoidung->diachi,
+                'DiaChiNH' => $input["DiaChi"],
+                'GhiChu' => $input["GhiChu"],
             ]);
         }
        
