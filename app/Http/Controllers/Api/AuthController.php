@@ -108,11 +108,11 @@ class AuthController extends Controller
             // // $time = $date->date;
             // $time_expiration_token->format(DateTime::RFC1036);
             //    $date =  date('Y-m-d H:i:s',$time_expiration_token);
-           $date = $time_expiration_token->format('Y-m-d H:i:s');
+        //    $date = $time_expiration_token->format('Y-m-d H:i:s');
             return $this->success([
                 'user'=> $user,
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
-                'expires_at'=> $date
+                // 'expires_at'=> $date
             ],200);
 
         } catch(\Throwable $th){
