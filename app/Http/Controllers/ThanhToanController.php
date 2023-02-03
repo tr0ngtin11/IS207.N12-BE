@@ -93,7 +93,7 @@ class ThanhToanController extends Controller
                     }
                 }
                 $thanhtien += $value["SoLuong"] * ($sanpham->Gia + $giatongTopping);
-                // Log::info($thanhtien);
+                Log::info($thanhtien);
                 $tongtien += $thanhtien;
                 $tentoppingString =  (implode(",", $tentoppingArray));
                 // Log::info($tentoppingString);
