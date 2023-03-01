@@ -63,8 +63,7 @@ Route::apiResource('blog', BlogController::class);
     Route::post('/user/changepassword/{nguoidung}', [AuthController::class, 'changePassword']);
 });
 
-
-
+//.
 
 
  
