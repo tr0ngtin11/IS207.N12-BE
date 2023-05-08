@@ -27,25 +27,28 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
-{use HttpResponses;
-    public function createUser(StoreUserRequest $request){
+{
+    use HttpResponses;
+    public function createUser(StoreUserRequest $request)
+    {
 
-        try{
-            
+        try {
+
             $user = NguoiDung::create([
                 'hoten' => $request->hoten,
                 'email' => $request->email,
-                'role'=> $request->role,
+                'role' => $request->role,
                 'urlavt' => $request->urlavt,
-               'password'=> hash::make($request->password),
-               
-              
-          
-            
+                'password' => hash::make($request->password),
+
+
+
+
             ]);
             $customer = Khachhang::create([
                 'id' => $user->id,
             ]);
+            //a
             // $factory = (new Factory)->withServiceAccount(__DIR__.'/laravel-app-bc690-firebase-adminsdk-lsrie-fd8832949b.json');
             // $firestore = $factory->createFirestore();
             // $database = $firestore->database();
@@ -60,15 +63,13 @@ class AuthController extends Controller
                 'data' => $user,
                 'status' => true,
                 'token' => $user->createToken("API TOKEN")->plainTextToken
-            ],200);
-
-        } catch(\Throwable $th){
+            ], 200);
+        } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ],500);
+            ], 500);
         }
-
     }
 
     // public function createUser(StoreUserRequest $request) 
@@ -84,22 +85,23 @@ class AuthController extends Controller
     //     return $this->success([
     //         'user' => $user,
     //         // 'token' => $user->createToken('API Token')->plainTextToken,
-           
+
     //     ]);
     // }
 
 
-    public function loginUser(LoginUserRequest $request){
-        
-        try{
-            
+    public function loginUser(LoginUserRequest $request)
+    {
 
-            if(!Auth::attempt($request->only(['email','password']))){
-                return $this->error('','Credentials do not math',401);
+        try {
+
+
+            if (!Auth::attempt($request->only(['email', 'password']))) {
+                return $this->error('', 'Credentials do not math', 401);
             }
-        
-            $user = NguoiDung::where('email',$request->email)->first();
-             $time_expiration_token = $user->createToken('API TOKEN')->accessToken->expires_at;
+
+            $user = NguoiDung::where('email', $request->email)->first();
+            $time_expiration_token = $user->createToken('API TOKEN')->accessToken->expires_at;
             // // $time_expiration_token1 = new DateTimeImmutable($time_expiration_token);
             // $format = 'Y-m-d H:i:s';
             // // $date = DateTimeImmutable::createFromFormat($format,$time_expiration_token);
@@ -108,36 +110,34 @@ class AuthController extends Controller
             // // $time = $date->date;
             // $time_expiration_token->format(DateTime::RFC1036);
             //    $date =  date('Y-m-d H:i:s',$time_expiration_token);
-        //    $date = $time_expiration_token->format('Y-m-d H:i:s');
+            //    $date = $time_expiration_token->format('Y-m-d H:i:s');
             return $this->success([
-                'user'=> $user,
+                'user' => $user,
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
                 // 'expires_at'=> $date
-            ],200);
-
-        } catch(\Throwable $th){
+            ], 200);
+        } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ],500);
+            ], 500);
         }
-
     }
 
-    public function logoutUser(Request $request){
-        try{
+    public function logoutUser(Request $request)
+    {
+        try {
             $request->user()->currentAccessToken()->delete();
             return response()->json([
-                'status'=> true,
+                'status' => true,
                 'message' => 'User have been logged out successfully'
             ]);
-        }catch(\Throwable $th){
+        } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
-            ],500);
+            ], 500);
         }
-
     }
 
     public function getUser(Request $request)
@@ -149,7 +149,7 @@ class AuthController extends Controller
             $user = NguoiDung::find($idUser);
             $ngaysinh = new DateTimeImmutable($user->ngsinh);
             $ngaysinh = $ngaysinh->format('Y-m-d');
-            $user->ngsinh =$ngaysinh;
+            $user->ngsinh = $ngaysinh;
             return response()->json([
                 'status' => true,
                 'user' => $user
@@ -196,7 +196,8 @@ class AuthController extends Controller
                 'message' => 'Đổi mật khẩu thành công'
             ], 200);
         } else {
-            return response()->json(['status' => false,
+            return response()->json([
+                'status' => false,
                 'message' => 'Mật khẩu không chính xác'
             ], 401);
         }
@@ -219,13 +220,7 @@ class AuthController extends Controller
             'message' => 'OTP has been sent to your email',
             'numberOTP' => $user,
         ], 200);
-    
-
-
-        
-    
-    
-}
+    }
 
     public function checkEmailExist($email)
     {
