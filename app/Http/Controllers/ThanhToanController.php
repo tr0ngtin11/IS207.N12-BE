@@ -53,13 +53,13 @@ class ThanhToanController extends Controller
                 'isOnline' => 0,
             ]);
         } else {
-        $hoadon = HoaDon::create([
-            'id' => $MaHD,
-            'MaKH' => $input["MaKH"],
-            'NgayHD' => now(),
-            'TongTien' => 0,
-            'isOnline' => 1,
-        ]);
+            $hoadon = HoaDon::create([
+                'id' => $MaHD,
+                'MaKH' => $input["MaKH"],
+                'NgayHD' => now(),
+                'TongTien' => 0,
+                'isOnline' => 1,
+            ]);
         }
 
         $tongtien = 0;
@@ -75,7 +75,7 @@ class ThanhToanController extends Controller
             // }
             $MaSP = $value["MaSP"];
             $SoLuong = $value["SoLuong"];
-                
+
             $Size = $value["Size"];
             $MaPL = $value["MaPL"];
             $maKM = $value["MaKM"];
@@ -111,7 +111,7 @@ class ThanhToanController extends Controller
                 $sanpham = ChiTietSP::where('id', $MaSP)->first();
                 if ($topping != null) {
                     foreach ($topping as $key => $mangTopping) {
-                    
+
                         $topping = ChiTietSP::where('id', $mangTopping['MaSP'])->first();
                         $giatopping = $topping->Gia;
                         $giatongTopping += $giatopping;
@@ -133,7 +133,7 @@ class ThanhToanController extends Controller
                     'Topping' => $tentoppingString,
                 ]);
                 $cthd->save();
-            } 
+            }
         }
         $khuyenmai = KhuyenMai::where('id', $maKM)->first();
         Log::info($tongtien);
@@ -153,35 +153,34 @@ class ThanhToanController extends Controller
 
         $hoadon->save();
         $nguoidung = NguoiDung::where('id', $input["MaKH"])->first();
-        $ghichu = $input["GhiChu"] != null ? $input["GhiChu"] : "";
         if ($khachhang->role != "khachhang") {
             $donhang = DatHang::create([
                 'MaHD' => $MaHD,
                 'HoTen' => $nguoidung->hoten,
-                'SDT' => $input["SDT"],
+                'SDT' => "028333444",
                 'Email' => $nguoidung->email,
                 'PTTT' => "COD",
                 'MaKH' => $input["MaKH"],
                 'TrangThai' => "Đã giao",
-                'DiaChiNH' => $input["DiaChi"],
-                'GhiChu' => $ghichu,
+                'DiaChiNH' => $nguoidung->diachi,
+                'GhiChu' => '',
             ]);
         } else {
             $donhang = DatHang::create([
                 'MaHD' => $MaHD,
                 'HoTen' => $nguoidung->hoten,
-                'SDT' => $input["SDT"],
+                'SDT' => $nguoidung->sdt,
                 'Email' => $nguoidung->email,
                 'PTTT' => "COD",
                 'MaKH' => $input["MaKH"],
                 'TrangThai' => "Chưa xác nhận",
-                'DiaChiNH' => $input["DiaChi"],
-                'GhiChu' => $ghichu,
+                'DiaChiNH' => $nguoidung->diachi,
+                'GhiChu' => '',
             ]);
         }
-       
-        $donhang->save();
+
         Log::info($donhang);
+        $donhang->save();
         return response()->json([
             'status' => true,
             'message' => 'Thanh toán thành công',

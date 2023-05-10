@@ -20,7 +20,7 @@ class HoaDonController extends Controller
     public function GetCTHDHoaDon($id)
     {
         $hoadon = ChiTietHD::where('MaHD', $id)->get();
-       
+
 
         foreach ($hoadon as $key => $value) {
             $MaSP = $value->MaSP;
@@ -41,23 +41,24 @@ class HoaDonController extends Controller
 
         foreach ($hoadon1 as $key => $value) {
             $idDatHang = $value['id'];
-            $dathang = DatHang::where('MaHD', $idDatHang)->first();
-            $value['TrangThai'] = $dathang->TrangThai;
+            $dathang1 = DatHang::where('MaHD', $idDatHang)->first();
+            // $dathang = json_decode($dathang1, true, JSON_UNESCAPED_UNICODE);
+            // Log::info($dathang);
+            $value['TrangThai'] = $dathang1->TrangThai;
             $maKH = $value['MaKH'];
             $khuyenmai = KhuyenMai::where('id', $value['MaKM'])->first();
-        
+
             $khachhang = NguoiDung::where('id', $maKH)->first();
             $value['TenKM'] = $khuyenmai->TenKM;
             $value['hoten'] = $khachhang->hoten;
             $value['sdt'] = $khachhang->sdt;
             $value['diachi'] = $khachhang->diachi;
         }
-        Log::info($hoadon1);
+        // Log::info($hoadon1);
 
         return response()->json([
             'status' => true,
             'hoadon' => $hoadon1,
         ], 200);
     }
-   
 }

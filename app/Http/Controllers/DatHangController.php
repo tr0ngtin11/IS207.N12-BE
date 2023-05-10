@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 
 use App\Models\DatHang;
@@ -53,7 +54,7 @@ class DatHangController extends Controller
 
 
 
-  
+
 
     public function GetAllDonHang()
     {
@@ -128,9 +129,4 @@ class DatHangController extends Controller
             'message' => 'Xác nhận thành công',
         ], 200);
     }
-   
-
-
-
-    
 }
