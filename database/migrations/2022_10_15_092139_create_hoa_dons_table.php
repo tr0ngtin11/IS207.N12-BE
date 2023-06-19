@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('hoa_dons', function (Blueprint $table) {
             $table->bigIncrements('id');
-           $table->bigInteger('MaNV')->unsigned();
-           $table->bigInteger('MaKH')->unsigned();
-           $table->bigInteger('MaCH')->unsigned();
-           $table->bigInteger('MaKM')->unsigned();
+            $table->bigInteger('MaNV')->unsigned();
+            $table->bigInteger('MaKH')->unsigned();
+            $table->bigInteger('MaCH')->unsigned();
+            $table->bigInteger('MaKM')->unsigned();
             $table->dateTime('NgayHD');
             $table->double('TongTien');
             $table->timestamps();
@@ -35,7 +35,7 @@ return new class extends Migration
             // ->onDelete('cascade');
             // $table->foreign('MaKM')->references('id')->on('khuyen_mais')
             // ->onUpdate('cascade')
-            // ->onDelete('cascade');
+            // ->onDelete('cascade')
         });
     }
 
