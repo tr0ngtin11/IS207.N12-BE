@@ -35,7 +35,7 @@ return new class extends Migration
             // ->onDelete('cascade');
             // $table->foreign('MaKM')->references('id')->on('khuyen_mais')
             // ->onUpdate('cascade')
-            // ->onDelete('cascade')
+            // ->onDelete('cascade'
         });
     }
 
